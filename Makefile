@@ -165,22 +165,21 @@ install: libxenon.a
 	@mkdir -p $(DEVKITXENON)/usr/include/sys/
 	@mkdir -p $(DEVKITXENON)/$(TARGET)/lib/
 
-	@cp -r $(DRIVERDIR)/* $(DEVKITXENON)/usr/include/
-	@cp -r $(INCDIR)/* $(DEVKITXENON)/usr/include/
+	@echo [ Installing headers to $(DEVKITXENON)/usr/include ]
+	cp -r $(DRIVERDIR)/* $(DEVKITXENON)/usr/include/
+	cp -r $(INCDIR)/* $(DEVKITXENON)/usr/include/
 
-	@install -m 0664 $(DRIVERDIR)/lwip/include/lwip/* $(DEVKITXENON)/usr/include/lwip/
-	@install -m 0664 $(DRIVERDIR)/lwip/include/$(LWIP_MODE)/lwip/* $(DEVKITXENON)/usr/include/lwip/
-	@install -m 0664 $(DRIVERDIR)/lwip/include/netif/* $(DEVKITXENON)/usr/include/netif/
-	@install -m 0664 $(DRIVERDIR)/lwip/xenon/include/arch/* $(DEVKITXENON)/usr/include/arch/
+	install -m 0664 $(DRIVERDIR)/lwip/include/lwip/* $(DEVKITXENON)/usr/include/lwip/
+	install -m 0664 $(DRIVERDIR)/lwip/include/$(LWIP_MODE)/lwip/* $(DEVKITXENON)/usr/include/lwip/
+	install -m 0664 $(DRIVERDIR)/lwip/include/netif/* $(DEVKITXENON)/usr/include/netif/
+	install -m 0664 $(DRIVERDIR)/lwip/xenon/include/arch/* $(DEVKITXENON)/usr/include/arch/
 
-# Now done by toolchain script
-#install -m 0664 ../../../devkitxenon/app.lds $(DEVKITXENON)/
-#install -m 0775 ../../../devkitxenon/rules $(DEVKITXENON)/
+	@echo [ Installing linker objects to $(DEVKITXENON)/$(TARGET)/lib ]
+	install -m 0664 $(LINKERDIR)/crt1.o $(DEVKITXENON)/$(TARGET)/lib/
+	install -m 0664 $(LINKERDIR)/crti.o $(DEVKITXENON)/$(TARGET)/lib/
+	install -m 0664 $(LINKERDIR)/crtn.o $(DEVKITXENON)/$(TARGET)/lib/
 
-	@install -m 0664 $(LINKERDIR)/crt1.o $(DEVKITXENON)/$(TARGET)/lib/
-	@install -m 0664 $(LINKERDIR)/crti.o $(DEVKITXENON)/$(TARGET)/lib/
-	@install -m 0664 $(LINKERDIR)/crtn.o $(DEVKITXENON)/$(TARGET)/lib/
-
-	@install -m 0664 libxenon.a $(DEVKITXENON)/usr/lib/
+	@echo [ Installing LibXenon to $(DEVKITXENON)/usr/lib ]
+	install -m 0664 libxenon.a $(DEVKITXENON)/usr/lib/
 
 	@find $(DEVKITXENON)/usr/include/ -type f \! -name "*.h" -delete
