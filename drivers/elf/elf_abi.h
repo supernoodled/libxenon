@@ -28,7 +28,7 @@
 #ifndef _ELF_ABI_H
 #define _ELF_ABI_H
 
-typedef unsigned long int uint32_t;
+//typedef unsigned long int uint32_t;
 typedef unsigned short    uint16_t;
 
 typedef uint32_t	Elf32_Addr;	/* Unsigned program address */
