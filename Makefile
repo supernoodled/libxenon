@@ -2,13 +2,13 @@ ifeq ($(strip $(DEVKITXENON)),)
 $(error "please set DEVKITXENON")
 endif
 
-export PATH    	:=     	$(DEVKITXENON)/bin:$(PATH)
+export PATH    	    := $(DEVKITXENON)/bin:$(PATH)
 
 include $(DEVKITXENON)/rules
 
-export BASEDIR 		:= $(CURDIR)
-export DRIVERDIR       	:= $(BASEDIR)/drivers
-export LINKERDIR      	:= $(BASEDIR)/linker
+export BASEDIR      := $(CURDIR)
+export DRIVERDIR    := $(BASEDIR)/drivers
+export STARTUPDIR   := $(BASEDIR)/startup
 
 export INCDIR  		:= $(BASEDIR)/include
 
@@ -37,14 +37,14 @@ CXXFLAGS = $(CFLAGS) -fpermissive -Wno-sign-compare -Werror=int-to-pointer-cast 
 
 AFLAGS = -Iinclude -m32 $(INCLUDES)
 
-LIBOBJS = $(LINKERDIR)/crti.o \
-       	$(LINKERDIR)/crtn.o \
-       	$(LINKERDIR)/argv.o \
-       	$(LINKERDIR)/startup_from_xell.o \
-       	$(LINKERDIR)/crt1.o \
+LIBOBJS = $(STARTUPDIR)/crti.o \
+		$(STARTUPDIR)/crtn.o \
+		$(STARTUPDIR)/argv.o \
+		$(STARTUPDIR)/startup_from_xell.o \
+		$(STARTUPDIR)/crt1.o \
        	$(DRIVERDIR)/console/console.o \
        	$(DRIVERDIR)/console/telnet_console.o \
-       	$(DRIVERDIR)/diskio/ata.o \
+		$(DRIVERDIR)/diskio/ata.o \
        	$(DRIVERDIR)/iso9660/iso9660.o \
        	$(DRIVERDIR)/input/input.o \
        	$(DRIVERDIR)/newlib/newlib.o \
@@ -174,10 +174,10 @@ install: libxenon.a
 	install -m 0664 $(DRIVERDIR)/lwip/include/netif/* $(DEVKITXENON)/usr/include/netif/
 	install -m 0664 $(DRIVERDIR)/lwip/xenon/include/arch/* $(DEVKITXENON)/usr/include/arch/
 
-	@echo [ Installing linker objects to $(DEVKITXENON)/$(TARGET)/lib ]
-	install -m 0664 $(LINKERDIR)/crt1.o $(DEVKITXENON)/$(TARGET)/lib/
-	install -m 0664 $(LINKERDIR)/crti.o $(DEVKITXENON)/$(TARGET)/lib/
-	install -m 0664 $(LINKERDIR)/crtn.o $(DEVKITXENON)/$(TARGET)/lib/
+	@echo [ Installing crtls to $(DEVKITXENON)/$(TARGET)/lib ]
+	install -m 0664 $(STARTUPDIR)/crt1.o $(DEVKITXENON)/$(TARGET)/lib/
+	install -m 0664 $(STARTUPDIR)/crti.o $(DEVKITXENON)/$(TARGET)/lib/
+	install -m 0664 $(STARTUPDIR)/crtn.o $(DEVKITXENON)/$(TARGET)/lib/
 
 	@echo [ Installing LibXenon to $(DEVKITXENON)/usr/lib ]
 	install -m 0664 libxenon.a $(DEVKITXENON)/usr/lib/
