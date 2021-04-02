@@ -1,7 +1,6 @@
-diff -NurpP --minimal gcc-10.2.0//config.sub gcc-10.2.0-xenon//config.sub
---- gcc-10.2.0//config.sub	2010-05-25 09:22:07.000000000 -0400
-+++ gcc-10.2.0-xenon//config.sub	2011-08-21 13:37:29.016458785 -0400
-@@ -962,6 +962,10 @@ case $basic_machine in
+--- gcc-10.2.0/config.sub	2010-05-25 15:22:07.000000000 +0200
++++ gcc-10.2.0/config.sub	2011-05-08 20:01:59.131496120 +0200
+@@ -962,6 +962,10 @@
  	ppc64le-* | powerpc64little-*)
  		basic_machine=powerpc64le-`echo $basic_machine | sed 's/^[^-]*-//'`
  		;;
@@ -12,9 +11,27 @@ diff -NurpP --minimal gcc-10.2.0//config.sub gcc-10.2.0-xenon//config.sub
  	ps2)
  		basic_machine=i386-ibm
  		;;
-diff -NurpP --minimal gcc-10.2.0//gcc/config/rs6000/altivec.md gcc-10.2.0-xenon//gcc/config/rs6000/altivec.md
---- gcc-10.2.0//gcc/config/rs6000/altivec.md	2011-04-28 18:39:59.000000000 -0400
-+++ gcc-10.2.0-xenon//gcc/config/rs6000/altivec.md	2011-08-21 13:55:47.672551230 -0400
+--- gcc-10.2.0/libstdc++-v3/configure	2011-03-08 01:04:05.000000000 +0100
++++ gcc-10.2.0/libstdc++-v3/configure	2011-05-08 20:03:15.371557434 +0200
+@@ -10790,6 +10790,7 @@
+   finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
+   shlibpath_var=LD_LIBRARY_PATH
+   shlibpath_overrides_runpath=no
++  lt_cv_shlibpath_overrides_runpath=no
+ 
+   # Some binutils ld are patched to set DT_RUNPATH
+   if test "${lt_cv_shlibpath_overrides_runpath+set}" = set; then :
+--- gcc-10.2.0/gcc/config/rs6000/altivec.md	2011-02-03 06:42:19.000000000 +0100
++++ gcc-10.2.0/gcc/config/rs6000/altivec.md	2011-06-28 20:46:28.580429716 +0200
+@@ -584,7 +584,7 @@
+  
+    two = gen_reg_rtx (V8HImode);
+    convert_move (two, operands[2], 0);
+- 
++
+    small_swap = gen_reg_rtx (V8HImode);
+    convert_move (small_swap, swap, 0);
+  
 @@ -642,7 +642,7 @@
  		      (match_operand:VIshort 2 "register_operand" "v")
                        (match_operand:V4SI 3 "register_operand" "v")]
@@ -195,14 +212,21 @@ diff -NurpP --minimal gcc-10.2.0//gcc/config/rs6000/altivec.md gcc-10.2.0-xenon/
    "vsumsws %0,%1,%2"
    [(set_attr "type" "veccomplex")])
  
-diff -NurpP --minimal gcc-10.2.0//libstdc++-v3/configure gcc-10.2.0-xenon//libstdc++-v3/configure
---- gcc-10.2.0//libstdc++-v3/configure	2011-05-25 20:15:58.000000000 -0400
-+++ gcc-10.2.0-xenon//libstdc++-v3/configure	2011-08-21 13:45:28.112976307 -0400
-@@ -10790,6 +10790,7 @@ linux* | k*bsd*-gnu | kopensolaris*-gnu)
-   finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
-   shlibpath_var=LD_LIBRARY_PATH
-   shlibpath_overrides_runpath=no
-+  lt_cv_shlibpath_overrides_runpath=no
+@@ -1898,7 +1898,7 @@
+   vzero = gen_reg_rtx (GET_MODE (operands[0]));
+   emit_insn (gen_altivec_vspltis<VI_char> (vzero, const0_rtx));
+   emit_insn (gen_sub<mode>3 (operands[0], vzero, operands[1])); 
+-  
++
+   DONE;
+ }")
  
-   # Some binutils ld are patched to set DT_RUNPATH
-   if test "${lt_cv_shlibpath_overrides_runpath+set}" = set; then :
+@@ -2044,7 +2044,7 @@
+                      UNSPEC_VUPKHUB))]
+   "TARGET_ALTIVEC"      
+   "
+-{  
++{
+   rtx vzero = gen_reg_rtx (V8HImode);
+   rtx mask = gen_reg_rtx (V16QImode);
+   rtvec v = rtvec_alloc (16);

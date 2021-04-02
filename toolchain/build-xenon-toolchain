@@ -2,26 +2,46 @@
 
 # originally written by Uwe Hermann <uwe@hermann-uwe.de>, released as public domain.
 # changed for xenon by Felix Domke <tmbinc@elitedvb.net>, still public domain
+# updated by superoodled, it's public duh lmao
 
 TARGET=xenon
 PREFIX=/usr/local/xenon # Install location of your final toolchain
+
+# amount of cores? (maybe threads count too)
+# but it's left as blank so meh
 PARALLEL=
 
-BINUTILS=binutils-2.22
-GCC=gcc-4.7.1
-NEWLIB=newlib-1.20.0
-GDB=gdb-6.8
+# newest versions 1st apr 2021
 
-ZLIB=zlib-1.2.8
-LIBPNG=libpng-1.5.10
-BZIP2=bzip2-1.0.6
-FREETYPE=freetype-2.4.9
+# gnu.org
+BINUTILS=binutils-2.36 #.tar.bz2
+GCC=gcc-10.2.0 #.tar.bz2
 
+# sourceware.org
+NEWLIB=newlib-4.1.0 #.tar.gz
+
+# gnu.org
+GDB=gdb-10.1
+
+# zlib.net dl: (LIBPNG) sourceforge.net
+ZLIB=zlib-1.2.11
+
+# libpng.org - dl: sourceforge.net
+LIBPNG=libpng-1.6.37
+
+# sourceware.org
+BZIP2=bzip2-1.0.8
+
+# freetype.org - dl: savannah.gnu.org
+FREETYPE=freetype-2.10.4
+
+# build settings
 BUILD_BINUTILS=true
 BUILD_GCC=true
 BUILD_NEWLIB=true
 BUILD_GCC_SECOND=true
 
+# ????
 #FSBRANCH=Swizzy
 
 # path to the logfile
@@ -225,7 +245,7 @@ function bzip2_install
 {
 	if [ ! -f "$BZIP2.tar.gz" ]; then
 		echo -e "Downloading $BZIP2.tar.gz"
-		wget -c http://download.sourceforge.net/bzip2/$BZIP2.tar.gz || exit 0
+		wget -c ftp://sourceware.org/pub/bzip2/$BZIP2.tar.gz || exit 0
 	fi;
 
 	echo -e "Extracting bzip2..."
@@ -279,14 +299,15 @@ function filesystems_install
 {
 	echo -e "Building Filesystems..."
 
-	filesystems="fat-xenon ntfs-xenon ext2fs-xenon xtaflib"
+	#OLD: filesystems="fat-xenon ntfs-xenon ext2fs-xenon xtaflib"
+	filesystems="libfat ntfs-xenon libext2fs libxtaf"
 
 	for i in $filesystems
 	do
 		echo -e -n "$i: "
 		if [ ! -d $i ]; then
 			echo -e -n "Cloning... "
-			git clone https://github.com/LibXenonProject/$i.git  >> $LOGFILE 2>&1 || exit 0
+			git clone https://github.com/supernoodled/$i.git  >> $LOGFILE 2>&1 || exit 0
 			if [ "" != "$FSBRANCH" ]; then
 				cd $i
 				git checkout $FSBRANCH >> $LOGFILE 2>&1
@@ -331,20 +352,30 @@ function cube
 	rm -rf free60 &>/dev/null
 	rm cube.elf32 &>/dev/null
 
-	#check if git is present to download and install libxenon
+	check if git is present to download and install libxenon
 	git &>/dev/null
 	RETVAL=$?
 
 	if [ $RETVAL -eq 1 ]; then
 
+		# Already included in Free60Project libxenon github...
 		echo -e "Downloading Cube Sample"
-		git clone git://free60.git.sourceforge.net/gitroot/free60/free60 >> $LOGFILE 2>&1
+
+		# make directory
+		mkdir free60
+		cd free60 # go to directory
+
+		# clone in directory (lol cloning the same git but meh)
+		git clone https://github.com/supernoodled/libxenon >> $LOGFILE 2>&1
+
+		cd ../ # go back
+
 		echo -e "Building Cube Sample..."
-		make -C free60/devkitxenon/examples/xenon/graphics/cube >> $LOGFILE 2>&1
-		cp free60/devkitxenon/examples/xenon/graphics/cube/cube.elf32 .
+		make -C free60/libxenon/devkitxenon/examples/xenon/graphics/cube >> $LOGFILE 2>&1
+		cp free60/libxenon/devkitxenon/examples/xenon/graphics/cube/cube.elf32 .
 		echo
 		echo -e "cube.elf32 compiled, run it via xell"
-		echo		
+		echo
 		
 	else
 		echo
