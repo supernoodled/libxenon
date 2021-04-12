@@ -11,7 +11,7 @@ PREFIX=/usr/local/xenon # Install location of your final toolchain
 # but it's left as blank so meh
 PARALLEL=
 
-# newest versions 1st apr 2021
+# newest versions 12 april 2021
 
 # gnu.org
 BINUTILS=binutils-2.36 #.tar.bz2
