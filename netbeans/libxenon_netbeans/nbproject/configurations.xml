@@ -402,7 +402,7 @@
       </df>
     </df>
     <df name="toolchain" root="../../toolchain">
-      <df name="libpng-1.5.7">
+      <df name="libpng-1.6.37">
       </df>
     </df>
     <logicalFolder name="ExternalFiles"
