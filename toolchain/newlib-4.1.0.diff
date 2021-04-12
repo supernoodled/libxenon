@@ -1,0 +1,18 @@
+diff -aur newlib-4.1.0/config.sub newlib-4.1.0/config.sub
+--- newlib-4.1.0/config.sub	2020-12-18 ‏‎23:50:49.000000000 +0100
++++ newlib-4.1.0/config.sub	2021-04-12 ‏‎‏‎21:34:45.000000000 +0200
+@@ -1074,6 +1074,14 @@
+ 		;;
+ 	ppc64le-* | powerpc64little-*)
+ 		cpu=powerpc64le
++		;;
++	ppu)
++		cpu=powerpc64
++		os=none
++		;;
++	xenon)
++		cpu=powerpc64
++		os=none
+ 		;;
+ 	sb1-*)
+ 		cpu=mipsisa64sb1

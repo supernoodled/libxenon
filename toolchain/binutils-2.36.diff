@@ -1,0 +1,13 @@
+--- binutils-2.36/config.sub	2011-06-06 ‏‎11:36:06.000000000 +0200
++++ binutils-2.36/config.sub	2021-04-12 ‏‎‏‎21:41:08.000000000 +0200
+@@ -1076,6 +1076,10 @@
+ 		;;
+ 	ppc64le-* | powerpc64little-*)
+ 		cpu=powerpc64le
++		;;
++	xenon)
++		cpu=powerpc64
++		basic_os=${basic_os:-linux-gnu}
+ 		;;
+ 	sb1-*)
+ 		cpu=mipsisa64sb1
