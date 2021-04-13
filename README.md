@@ -4,15 +4,39 @@ libXenon is a library for writing programs for the Xbox 360, without using any e
 # About
 This is an attempt as to make libxenon compilable in 2021+, without having to use old OS like Debian 7.
 
+*!This is a WIP, and does not currently work!*
+
+# What you need
+- Ubuntu, or Debian. I'm currently developing this on [Windows 10 WSL2](https://docs.microsoft.com/en-gb/windows/wsl/install-win10) Debian 10.
+
+## sudo apt get install
+- libgmp3-dev
+- libmpfr-dev
+- libmpc-dev
+- texinfo
+- git-core
+- build-essential
+
+## Maybe need
+- lsb-core
+- lsb-release
+
+- (these may require you to add extra sources to APT in Debian, such as oldoldstable).
+
+## type sudo nano ~/.bashrc and add the line
+- export DEVKITXENON="/usr/local/xenon"
+
+- then just CTRL+X and press Y to save
+
 # Usage
 - git clone https://github.com/supernoodled/libxenon
 - cd libxenon/toolchain
-- sudo ./build-xenon-toolchain toolchain (install toolchain + libxenon)
-- sudo ./build-xenon-toolchain libs (install libxenon + bin2s + libraries seen below)
-- sudo ./build-xenon-toolchain libxenon (install or update libxenon)
-- sudo ./build-xenon-toolchain zlib (install or update zlib)
-- sudo ./build-xenon-toolchain libpng (install or update libpng)
-- sudo ./build-xenon-toolchain bzip2 (install or update bzip2)
-- sudo ./build-xenon-toolchain freetype (install or update freetype)
-- sudo ./build-xenon-toolchain filesystems (install libxenon filesystems)
-- sudo ./build-xenon-toolchain cube (compile the cube sample)
+- ./build-xenon-toolchain toolchain (install toolchain + libxenon)
+- ./build-xenon-toolchain libs (install libxenon + bin2s + libraries seen below)
+- ./build-xenon-toolchain libxenon (install or update libxenon)
+- ./build-xenon-toolchain zlib (install or update zlib)
+- ./build-xenon-toolchain libpng (install or update libpng)
+- ./build-xenon-toolchain bzip2 (install or update bzip2)
+- ./build-xenon-toolchain freetype (install or update freetype)
+- ./build-xenon-toolchain filesystems (install libxenon filesystems)
+- ./build-xenon-toolchain cube (compile the cube sample)
