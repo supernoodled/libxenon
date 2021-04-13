@@ -302,7 +302,7 @@ function filesystems_install
 	echo -e "Building Filesystems..."
 
 	#OLD: filesystems="fat-xenon ntfs-xenon ext2fs-xenon xtaflib"
-	filesystems="libfat ntfs-xenon libext2fs libxtaf"
+	filesystems="libfat ntfs-xenon libext2fs libxtaf" # new
 
 	for i in $filesystems
 	do
@@ -364,13 +364,20 @@ function cube
 		echo -e "Downloading Cube Sample"
 
 		# make directory
-		mkdir free60
-		cd free60 # go to directory
+
+		echo -e "Making free60 dir"
+		echo
+		mkdir "free60" # folders need quotes
+		echo
+		cd "free60" # go to directory
+		echo
 
 		# clone in directory (lol cloning the same git but meh)
+		echo -e "Cloning..."
+		echo
 		git clone https://github.com/supernoodled/libxenon >> $LOGFILE 2>&1
-
-		cd ../ # go back
+		echo
+		cd .. # go back (no need for ../)
 
 		echo -e "Building Cube Sample..."
 		make -C free60/libxenon/devkitxenon/examples/xenon/graphics/cube >> $LOGFILE 2>&1
