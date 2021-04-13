@@ -21,7 +21,7 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 - deb [trusted=yes] https://security.debian.org/debian-security/ stable/updates main
 - deb [trusted=yes] https://ftp.debian.org/debian stable-backports main
 
-- then just CTRL+X and press Y to save.
+- then just CTRL+X, press Y, then press enter to save.
 
 - then type sudo apt-get update 
 - then sudo apt-get upgrade
@@ -51,4 +51,4 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 - type sudo nano ~/.bashrc and add the line
 - export DEVKITXENON="/usr/local/xenon"
 
-- then CTRL+X and press Y to save.
+- then CTRL+X, press Y, then press enter to save.
