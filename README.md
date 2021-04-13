@@ -4,7 +4,7 @@ libXenon is a library for writing programs for the Xbox 360, without using any e
 # About
 This is an attempt as to make libxenon compilable in 2021+, without having to use old OS like Debian 7.
 
-*!This is a WIP, and does not currently work!*
+# *!This is a WIP, and does not currently work!*
 
 # What you need
 - Ubuntu, or Debian. I'm currently developing this on [Windows 10 WSL2](https://docs.microsoft.com/en-gb/windows/wsl/install-win10) Debian 10.
