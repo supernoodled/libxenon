@@ -12,9 +12,8 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 # Debian
 - You need to get lsb-release (pointless, but still needed) for a pointless version check.
 - It's not included in the default APT, so we have to modify it.
-- type cd /etc/apt
-- then sudo nano sources.list
-- and add to your APT list
+- type sudo nano /etc/apt/sources.list
+- and add to your APT list (one each line)
 
 - deb [trusted=yes] https://ftp.debian.org/debian stable main
 - deb [trusted=yes] https://ftp.debian.org/debian stable-updates main
