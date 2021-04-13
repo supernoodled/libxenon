@@ -106,6 +106,7 @@ function toolchain_install
         if $BUILD_BINUTILS; then
         echo -e "Extracting binutils..."
         tar xfj $BINUTILS.tar.bz2 >> $LOGFILE 2>&1 && cat $BINUTILS.diff | patch -p0 >> $LOGFILE 2>&1 || exit 0
+        echo -e "Patched $BINUTILS with $BINUTILS.diff"
         cd build
         echo -e "Configuring binutils..."
         ../$BINUTILS/configure --target=$TARGET --prefix=$PREFIX  --enable-multilib   --disable-nls --disable-werror >> $LOGFILE 2>&1 || exit 0
@@ -120,6 +121,7 @@ function toolchain_install
         if $BUILD_GCC; then
         echo -e "Extracting gcc..."
         tar xJf $GCC.tar.xz >> $LOGFILE 2>&1 && cat $GCC.diff | patch -p0 >> $LOGFILE 2>&1 || exit 0
+        echo -e "Patched $GCC with $GCC.diff"
         cd build
         echo -e "Configuring gcc..."
         ../$GCC/configure --target=$TARGET --prefix=$PREFIX --with-libiconv-prefix=/opt/local -enable-interwork \
@@ -138,6 +140,7 @@ function toolchain_install
         if $BUILD_NEWLIB; then
         echo -e "Extracting newlib..."
         tar xfz $NEWLIB.tar.gz >> $LOGFILE 2>&1 && cat $NEWLIB.diff | patch -p0 >> $LOGFILE 2>&1 || exit 0
+        echo -e "Patched $NEWLIB with $NEWLIB.diff"
         cd build
         echo -e "Configuring newlib..."
         ../$NEWLIB/configure --target=$TARGET --prefix=$PREFIX  --enable-multilib --disable-nls \
@@ -253,6 +256,7 @@ function bzip2_install
 	echo -e "Extracting bzip2..."
 	rm -rf $BZIP2
 	tar xzf $BZIP2.tar.gz >> $LOGFILE 2>&1 && cat ../libxenon/ports/bzip2/$BZIP2.diff | patch -p0 >> $LOGFILE 2>&1 || exit 0
+	echo -e "Patched $BZIP2 with $BZIP2.diff"
 	cd $BZIP2
 
 	echo -e "Building bzip2..."
@@ -309,7 +313,7 @@ function filesystems_install
 		echo -e -n "$i: "
 		if [ ! -d $i ]; then
 			echo -e -n "Cloning... "
-			git clone https://github.com/supernoodled/$i.git  >> $LOGFILE 2>&1 || exit 0
+			git clone https://github.com/supernoodled/$i.git >> $LOGFILE 2>&1 || exit 0
 			if [ "" != "$FSBRANCH" ]; then
 				cd $i
 				git checkout $FSBRANCH >> $LOGFILE 2>&1
@@ -349,50 +353,19 @@ function bin2s_install
 	popd
 }
 
+# Cube sample is already included, so no download required.
 function cube
 {
 	rm -rf free60 &>/dev/null
 	rm cube.elf32 &>/dev/null
 
-	check if git is present to download and install libxenon
-	git &>/dev/null
-	RETVAL=$?
-
-	if [ $RETVAL -eq 1 ]; then
-
-		# Already included in Free60Project libxenon github...
-		echo -e "Downloading Cube Sample"
-
-		# make directory
-
-		echo -e "Making free60 dir"
-		echo
-		mkdir "free60" # folders need quotes
-		echo
-		cd "free60" # go to directory
-		echo
-
-		# clone in directory (lol cloning the same git but meh)
-		echo -e "Cloning..."
-		echo
-		git clone https://github.com/supernoodled/libxenon >> $LOGFILE 2>&1
-		echo
-		cd .. # go back (no need for ../)
-
-		echo -e "Building Cube Sample..."
-		make -C free60/libxenon/devkitxenon/examples/xenon/graphics/cube >> $LOGFILE 2>&1
-		cp free60/libxenon/devkitxenon/examples/xenon/graphics/cube/cube.elf32 .
-		echo
-		echo -e "cube.elf32 compiled, run it via xell"
-		echo
+	# devkitxenon folder
+	echo -e "Building Cube Sample..."
+	make -C ../devkitxenon/examples/xenon/graphics/cube >> $LOGFILE 2>&1
+	cp ../devkitxenon/examples/xenon/graphics/cube/cube.elf32 .
+	echo -e "cube.elf32 compiled, run it via xell"
 		
-	else
-		echo
-		echo -e "git is needed to download libxenon, install it and run this script again with \"libxenon\" as argument"
-		echo -e "If you are running debian/ubuntu : sudo apt-get install git"
-		echo
-	fi
-	exit 0	
+	exit 0
 }
 
 function all_done
@@ -410,16 +383,25 @@ function all_done
 	echo -e "${NC}"
 }
 
+# honestly this whole checking distro thing is pointless.
+# LSB got removed from Debian main APT in 2015
+# and all this does is check if deb but does nothing really
 function check_debian
 {
+	echo -e "Ignore any LSB module messages if they appear!"
+	echo
 	if `echo $LSBRELEASE | grep "$SEARCH_UBUNTU" >> $LOGFILE 2>&1`
 	then
-  		DEB=true
+		echo -e "You are running Ubuntu"
+  		DEB=true # this check is entirely pointless, yes the default is true.
+  		echo
 	fi
 
 	if `echo $LSBRELEASE | grep "$SEARCH_DEBIAN" >> $LOGFILE 2>&1`
 	then
+		echo -e "You are running Debian"
   		DEB=true
+  		echo
 	fi
 }
 
@@ -445,6 +427,9 @@ function check_build-essential
 # start
 rm $LOGFILE &>/dev/null
 
+# Literally the only place where it checks if DEB
+# but both distros have build-essential....
+# TODO: Disable this, since it's pointless.
 if [ "$1" == "toolchain" ]; then
     check_debian
     if $DEB; then
