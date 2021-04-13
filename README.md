@@ -9,21 +9,15 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 # What you need
 - Ubuntu, or Debian. I'm currently developing this on [Windows 10 WSL2](https://docs.microsoft.com/en-gb/windows/wsl/install-win10) Debian 10 (Buster).
 
-# Debian
+# Debian 10 (Buster)
 - You need to get lsb-release (pointless, but still needed) for a pointless version check.
 - It's not included in the default APT, so we have to modify it.
 - type sudo nano /etc/apt/sources.list
-- and add to your APT list (one each line)
-
-- deb [trusted=yes] https://ftp.debian.org/debian stable main
-- deb [trusted=yes] https://ftp.debian.org/debian stable-updates main
-- deb [trusted=yes] https://security.debian.org/debian-security/ stable/updates main
-- deb [trusted=yes] https://ftp.debian.org/debian stable-backports main
-
+- then copy paste from Debian10APT.txt, or from https://pastebin.com/raw/X9uf6Zh1
 - then just CTRL+X, press Y, then press enter to save.
 
-- then type sudo apt-get update 
-- then sudo apt-get upgrade
+- finally type sudo apt-get update 
+- then sudo apt-get upgrade to finish it off
 
 ## sudo apt-get install
 - libgmp3-dev
