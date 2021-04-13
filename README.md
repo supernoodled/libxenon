@@ -9,6 +9,23 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 # What you need
 - Ubuntu, or Debian. I'm currently developing this on [Windows 10 WSL2](https://docs.microsoft.com/en-gb/windows/wsl/install-win10) Debian 10 (Buster).
 
+# Debian
+- You need to get lsb-release (pointless, but still needed) for a pointless version check.
+- It's not included in the default APT, so we have to modify it.
+- type cd /etc/apt
+- then sudo nano sources.list
+- and add to your APT list
+
+- deb [trusted=yes] https://ftp.debian.org/debian stable main
+- deb [trusted=yes] https://ftp.debian.org/debian stable-updates main
+- deb [trusted=yes] https://security.debian.org/debian-security/ stable/updates main
+- deb [trusted=yes] https://ftp.debian.org/debian stable-backports main
+
+- then just CTRL+X and press Y to save.
+
+- then type sudo apt-get update 
+- then sudo apt-get upgrade
+
 ## sudo apt-get install
 - libgmp3-dev
 - libmpfr-dev
@@ -17,21 +34,7 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 - git-core
 - build-essential
 
-## Maybe need
-- lsb-core
-- lsb-release
-
-- (these may require you to add extra sources to APT in Debian, such as oldoldstable, if you can't install say lsb-core or lsb-release)
-- make sure to sudo apt-get update
-- then sudo apt-get upgrade
-- so that your APT is up to date
-
-## type sudo nano ~/.bashrc and add the line
-- export DEVKITXENON="/usr/local/xenon"
-
-- then just CTRL+X and press Y to save
-
-# Usage
+# Usage (toolchain commands)
 - git clone https://github.com/supernoodled/libxenon
 - cd libxenon/toolchain
 - ./build-xenon-toolchain toolchain (install toolchain + libxenon)
@@ -43,3 +46,9 @@ This is an attempt as to make libxenon compilable in 2021+, without having to us
 - ./build-xenon-toolchain freetype (install or update freetype)
 - ./build-xenon-toolchain filesystems (install libxenon filesystems)
 - ./build-xenon-toolchain cube (compile the cube sample)
+
+## you may need to
+- type sudo nano ~/.bashrc and add the line
+- export DEVKITXENON="/usr/local/xenon"
+
+- then CTRL+X and press Y to save.
