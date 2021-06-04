@@ -14,12 +14,20 @@ PARALLEL=
 # newest versions 12 april 2021
 
 # gnu.org
+
+# originally binutils-2.22, but shouldn't matter?
 BINUTILS=binutils-2.36 #.tar.bz2
 
 # gcc-6.3.0 last release with .tar.bz2
-GCC=gcc-10.3.0 #.tar.xz
+# originally gcc-4.7.1
+# but has been confirmed working with gcc-4.9
+
+# - if it ain't broke don't fix it
+GCC=gcc-4.7.1 #.tar.bz2
 
 # sourceware.org
+# originally newlib-1.20.0
+# but has been confirmed working with newlib-2.0
 NEWLIB=newlib-4.1.0 #.tar.gz
 
 # gnu.org
@@ -32,6 +40,7 @@ ZLIB=zlib-1.2.11 #.tar.gz
 LIBPNG=libpng-1.6.37 #.tar.xz
 
 # sourceware.org
+# originally bzip2-1.0.6, but shouldn't matter?
 BZIP2=bzip2-1.0.8 #.tar.gz
 
 # freetype.org - dl: savannah.gnu.org
