@@ -4,6 +4,9 @@
 # changed for xenon by Felix Domke <tmbinc@elitedvb.net>, still public domain
 # updated by supernoodled, it's public duh lmao, hopefully works.
 
+# TODO: check the latest version of GCC and newlib you can use
+# and create a working .diff
+
 TARGET=xenon
 PREFIX=/usr/local/xenon # Install location of your final toolchain
 
@@ -22,13 +25,15 @@ BINUTILS=binutils-2.36 #.tar.bz2
 # originally gcc-4.7.1
 # but has been confirmed working with gcc-4.9
 
-# - if it ain't broke don't fix it
+# - if it ain't broke don't fix it?
 GCC=gcc-4.7.1 #.tar.bz2
 
 # sourceware.org
 # originally newlib-1.20.0
 # but has been confirmed working with newlib-2.0
-NEWLIB=newlib-4.1.0 #.tar.gz
+
+# - if it ain't broke don't fix it?
+NEWLIB=newlib-1.20.0 #.tar.gz
 
 # gnu.org
 GDB=gdb-10.1 #??? no download?
@@ -98,8 +103,8 @@ function toolchain_install
 
         # Check if gcc sources are available, download it if needed
         if [ ! -f "$GCC.tar.xz" ]; then
-                echo -e "Downloading $GCC.tar.xz"
-                wget -c ftp://ftp.gnu.org/gnu/gcc/$GCC/$GCC.tar.xz || exit 0
+                echo -e "Downloading $GCC.tar.bz2"
+                wget -c ftp://ftp.gnu.org/gnu/gcc/$GCC/$GCC.tar.bz2 || exit 0
         fi;
 
         # Check if newlib sources are available, download it if needed
@@ -129,7 +134,7 @@ function toolchain_install
 
         if $BUILD_GCC; then
         echo -e "Extracting gcc..."
-        tar xJf $GCC.tar.xz >> $LOGFILE 2>&1 && cat $GCC.diff | patch -p0 >> $LOGFILE 2>&1 || exit 0
+        tar xfj $GCC.tar.bz2 >> $LOGFILE 2>&1 && cat $GCC.diff | patch -p0 >> $LOGFILE 2>&1 || exit 0
         echo -e "Patched $GCC with $GCC.diff"
         cd build
         echo -e "Configuring gcc..."
